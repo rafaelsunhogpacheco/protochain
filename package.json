@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "npx tsc",
+    "dev": "npx nodemon ./src/blockchain.ts --watch ./src -e ts",
     "start": "node ./dist/blockchain.js"
   },
   "repository": {
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/rafaelsunhogpacheco/protochain#readme",
   "devDependencies": {
+    "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   }
 }
