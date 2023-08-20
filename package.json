@@ -1,0 +1,23 @@
+{
+  "name": "protochain",
+  "version": "1.0.0",
+  "description": "Protochain",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaelsunhogpacheco/protochain.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rafaelsunhogpacheco/protochain/issues"
+  },
+  "homepage": "https://github.com/rafaelsunhogpacheco/protochain#readme",
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  }
+}
