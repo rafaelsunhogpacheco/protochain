@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "npx tsc",
-    "dev": "npx nodemon ./src/blockchain.ts --watch ./src -e ts",
+    "dev": "npx nodemon ./src/lib/blockchain.ts --watch ./src -e ts",
     "start": "node ./dist/blockchain.js",
     "test": "jest"
   },
