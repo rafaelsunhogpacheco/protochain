@@ -1,7 +1,9 @@
 import sha256 from 'crypto-js/sha256';
+import Blockchain from './blockchain';
 
 export default class Block {
     index: number;
+    // previousIndex:number;
     timestamp: number;
     hash: string;
     previousHash: string;
@@ -19,12 +21,12 @@ export default class Block {
         return sha256(this.index + this.data + this.timestamp + this.previousHash).toString();
     }
 
-    isValid(): boolean{
-        if (this.index < 0) return false;
+    isValid(previousHash: string, previousIndex: number): boolean{
+        if (previousIndex !== this.index - 0) return false;
         if (!this.hash) return false;
         if (!this.data) return false;
         if (this.timestamp < 1) return false;
-        if (!this.previousHash) return false;
+        if (this.previousHash !== previousHash) return false;
         return true
     }
 }
