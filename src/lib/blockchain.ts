@@ -27,8 +27,11 @@ export default class Blockchain {
 
     isValid(): boolean {
         for (let i = this.blocks.length - 1; i > 0; i--) {
-            
+            const currentBlock = this.blocks[i];
+            const previousBlock = this.blocks[i-1];
+            const isValid = currentBlock.isValid(previousBlock.hash, previousBlock.index);
+            if (!isValid) return false;
         }
-        return false
+        return true;
     }
 }
