@@ -24,6 +24,7 @@ describe("Block tests", () => {
     it('Should NOT be valid (timestamp)', () =>{
         const block = new Block(1, genesis.hash, "block 2");
         block.timestamp = -1;
+        block.hash = block.getHash()
         const valid = block.isValid(genesis.hash, genesis.index);
         expect(valid).toBeFalsy();
     })
