@@ -1,6 +1,8 @@
 import Block from '../src/lib/block';
 import Blockchain from '../src/lib/blockchain';
 
+jest.mock('../src/lib/block')
+
 describe("Blockchain tests", () => {
     
     it('Should has genesis blocks', () =>{
@@ -30,7 +32,7 @@ describe("Blockchain tests", () => {
             previousHash: blockchain.blocks[0].hash,
             data: "Bloco 2"
         }as Block));
-        blockchain.blocks[1].data = "transfiro para mim"
+        blockchain.blocks[1].index = -1
         expect(blockchain.isValid().success).toEqual(false);
     })
 
