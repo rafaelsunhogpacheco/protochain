@@ -25,9 +25,11 @@ app.get('/blocks/:indexOrHash', (req, res, next) => {
     let block;
 
     if (/^[0-9]+$/.test(req.params.indexOrHash))
-        block = res.json(blockchain.blocks[parseInt(req.params.indexOrHash)]);
+        //block = res.json(blockchain.blocks[parseInt(req.params.indexOrHash)]);
+        block = blockchain.blocks[parseInt(req.params.indexOrHash)];
     else
-        block = res.json(blockchain.getBlock(req.params.indexOrHash));
+        //block = res.json(blockchain.getBlock(req.params.indexOrHash));
+        block = blockchain.getBlock(req.params.indexOrHash);
 
     if (!block)
         return res.sendStatus(404);
@@ -48,9 +50,7 @@ app.post('/blocks', (req, res, next) =>{
 })
 
 if (process.argv.includes("--run")) {
-    app.listen(PORT, () => {
-        console.log(`Blockchain server is running at PORT: ${PORT}`);
-    })
+    app.listen(PORT, () => {console.log(`Blockchain server is running at PORT: ${PORT}`);})
 }
 
 
