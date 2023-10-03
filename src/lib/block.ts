@@ -24,6 +24,17 @@ export default class Block {
         return sha256(this.index + this.data + this.timestamp + this.previousHash + this.nonce + this.miner).toString();
     }
 
+    mine(dificulty: number, miner: string) {
+        this.miner = miner;
+        const prefix = new Array(dificulty + 1).join("0");
+
+        do {
+            this.nonce++;
+            this.getHash()
+
+        }while (!this.hash.startsWith(prefix))
+    }
+
     isValid(previousHash: string, previousIndex: number, dificulty: number): Validation{
         if (previousIndex !== this.index - 1) return new Validation(false, "Invalid Index");
         if (this.hash !== this.getHash()) return new Validation(false, "Invalid Hash");
@@ -33,6 +44,7 @@ export default class Block {
         if (!this.nonce || !this.miner) return new Validation(false, "No mined.")
 
         const prefix = new Array(dificulty + 1).join("0");
+        console.log(prefix)
         if (this.hash !== this.getHash() || this.hash.startsWith(prefix))
             return new Validation(false, "Invalid hash.");
 
