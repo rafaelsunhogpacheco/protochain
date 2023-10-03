@@ -7,17 +7,21 @@ export default class Block {
     hash: string;
     previousHash: string;
     data: string;
+    nonce: number;
+    miner: string;
 
     constructor(block?: Block) {
         this.index = block?.index || 0;
         this.timestamp = block?.timestamp || Date.now();
         this.previousHash = block?.previousHash || "";
         this.data = block?.data || "";
+        this.nonce = block?.nonce || 0;
+        this.miner = block?.miner || "";
         this.hash = block?.hash || this.getHash();
     }
 
     getHash(): string {
-        return sha256(this.index + this.data + this.timestamp + this.previousHash).toString();
+        return sha256(this.index + this.data + this.timestamp + this.previousHash + this.nonce + this.miner).toString();
     }
 
     isValid(previousHash: string, previousIndex: number): Validation{
