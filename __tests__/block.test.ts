@@ -3,6 +3,7 @@ import Block from '../src/lib/block';
 
 describe("Block tests", () => {
 
+    const exempleDifficulty = 0;
     let genesis: Block;
 
     beforeAll(() => {
@@ -16,13 +17,13 @@ describe("Block tests", () => {
             index: 1,
             previousHash: genesis.hash,
             data: "block 2"}as Block);
-        const valid = block.isValid(genesis.hash, genesis.index);
+        const valid = block.isValid(genesis.hash, genesis.index, exempleDifficulty);
         expect(valid.success).toBeTruthy();
     })
 
     it('Should NOT be valid (fallbacks)', () =>{
         const block = new Block();
-        const valid = block.isValid(genesis.hash, genesis.index);
+        const valid = block.isValid(genesis.hash, genesis.index, exempleDifficulty);
         expect(valid.success).toBeFalsy();
     })
 
@@ -32,7 +33,7 @@ describe("Block tests", () => {
             previousHash: "abc",
             data: "block 2"
         }as Block);
-        const valid = block.isValid(genesis.hash, genesis.index);
+        const valid = block.isValid(genesis.hash, genesis.index, exempleDifficulty);
         expect(valid.success).toBeFalsy();
     })
 
@@ -44,7 +45,7 @@ describe("Block tests", () => {
         }as Block);
         block.timestamp = -1;
         block.hash = block.getHash()
-        const valid = block.isValid(genesis.hash, genesis.index);
+        const valid = block.isValid(genesis.hash, genesis.index, exempleDifficulty);
         expect(valid.success).toBeFalsy();
     })
 
@@ -55,7 +56,7 @@ describe("Block tests", () => {
             data: "block 2"
         }as Block);
         block.hash = "";
-        const valid = block.isValid(genesis.hash, genesis.index);
+        const valid = block.isValid(genesis.hash, genesis.index, exempleDifficulty);
         expect(valid.success).toBeFalsy();
     })
 
@@ -65,7 +66,7 @@ describe("Block tests", () => {
             previousHash: genesis.hash,
             data: ""
         }as Block);
-        const valid = block.isValid(genesis.hash, genesis.index);
+        const valid = block.isValid(genesis.hash, genesis.index, exempleDifficulty);
         expect(valid.success).toBeFalsy();
     })
 
@@ -75,7 +76,7 @@ describe("Block tests", () => {
             previousHash: genesis.hash,
             data: "block 2"
         }as Block);
-        const valid = block.isValid(genesis.hash, genesis.index);
+        const valid = block.isValid(genesis.hash, genesis.index, exempleDifficulty);
         expect(valid.success).toBeFalsy();
     })
 
