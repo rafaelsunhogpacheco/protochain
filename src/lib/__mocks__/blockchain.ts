@@ -1,6 +1,7 @@
 import Block from "./block";
 import Validation from "../validation";
 import BlockInfo from "../blockInfo";
+import Transaction from "../transaction";
 
 export default class Blockchain {
     blocks: Block[];
@@ -44,7 +45,9 @@ export default class Blockchain {
 
     getNextBlock() : BlockInfo {
         return {
-            data: new Date().toString(),
+            transactions: [new Transaction({
+                data: new Date().toString(),
+            } as Transaction)],
             difficulty: 0,
             previousHash: this.getLastBlock().hash,
             index: 1,
