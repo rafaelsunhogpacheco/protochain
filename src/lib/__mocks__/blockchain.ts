@@ -1,7 +1,8 @@
 import Block from "./block";
 import Validation from "../validation";
 import BlockInfo from "../blockInfo";
-import Transaction from "../transaction";
+import Transaction from "./transaction";
+import TransactionType from "../transactionType";
 
 export default class Blockchain {
     blocks: Block[];
@@ -12,7 +13,10 @@ export default class Blockchain {
             index: 0,
             hash: "abc",
             previousHash: ""  ,
-            data: "genesis",
+            transactions: [new Transaction({
+                data: "tx1",
+                type: TransactionType.FEE
+            } as Transaction)],
             timestamp: Date.now()
         }as Block)];
         this.nextIndex++;

@@ -1,7 +1,10 @@
-import { describe, it, expect, beforeAll } from '@jest/globals';
+import { describe, it, expect, beforeAll, jest } from '@jest/globals';
 import Block from '../src/lib/block';
 import BlockInfo from '../src/lib/blockInfo';
 import Transaction from '../src/lib/transaction';
+import TransactionType from '../src/lib/transactionType';
+
+jest.mock('../src/lib/transaction');
 
 describe("Block tests", () => {
 
@@ -27,7 +30,6 @@ describe("Block tests", () => {
         } as Block);
         block.mine(exampleDifficulty, exampleMiner)
         const valid = block.isValid(genesis.hash, genesis.index, exampleDifficulty);
-        console.log(block.hash)
         expect(valid.success).toBeTruthy();
     })
 
@@ -46,6 +48,37 @@ describe("Block tests", () => {
 
         const valid = block.isValid(genesis.hash, genesis.index, exampleDifficulty);
         expect(valid.success).toBeTruthy();
+    })
+
+    it('Should NOT be valid (2 FEE)', () =>{
+        const block = new Block({
+            index: 1,
+            previousHash: genesis.hash,
+            transactions: [
+                new Transaction({
+                    type: TransactionType.FEE,
+                    data: "fee1"
+                } as Transaction),
+                new Transaction({
+                    type: TransactionType.FEE,
+                    data: "fee2"
+                } as Transaction),
+            ]
+        } as Block);
+        block.mine(exampleDifficulty, exampleMiner)
+        const valid = block.isValid(genesis.hash, genesis.index, exampleDifficulty);
+        expect(valid.success).toBeFalsy();
+    })
+
+    it('Should NOT be valid (invalid tx)', () =>{
+        const block = new Block({
+            index: 1,
+            previousHash: genesis.hash,
+            transactions: [new Transaction()]
+        } as Block);
+        block.mine(exampleDifficulty, exampleMiner)
+        const valid = block.isValid(genesis.hash, genesis.index, exampleDifficulty);
+        expect(valid.success).toBeFalsy();
     })
 
     it('Should NOT be valid (fallbacks)', () =>{
