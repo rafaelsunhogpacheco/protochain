@@ -61,11 +61,15 @@ app.post('/blocks', (req: Request, res: Response, next: NextFunction) =>{
         res.status(400).json(validation)
 })
 
-app.get('/transactions', (req: Request, res: Response, next: NextFunction) =>{
-    return res.json({
-        next: blockchain.mempool.slice(0, Blockchain.TX_PER_BLOCK),
-        total: blockchain.mempool.length
-    });
+app.get('/transactions/:hash?', (req: Request, res: Response, next: NextFunction) =>{
+
+    if(req.params.hash)
+        res.json(blockchain.getTransaction(req.params.hash));
+    else
+        res.json({
+            next: blockchain.mempool.slice(0, Blockchain.TX_PER_BLOCK),
+            total: blockchain.mempool.length
+        });
 })
 
 app.post('/transactions', (req: Request, res: Response, next: NextFunction) =>{
