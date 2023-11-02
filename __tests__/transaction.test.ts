@@ -1,12 +1,16 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, jest } from '@jest/globals';
 import Transaction from '../src/lib/transaction';
 import TransactionType from '../src/lib/transactionType';
+import TransactionInput from '../src/lib/transactionInput';
+
+jest.mock('../src/lib/transactionInput');
 
 describe("Transaction tests", () => {
     
     it('Should be valid (REGULAR default)', () =>{
         const tx = new Transaction({
-            data: "tx",
+            txInput: new TransactionInput(),
+            to: 'carteiraTo',
         } as Transaction);
         const valid = tx.isValid();
         expect(valid.success).toBeTruthy();
@@ -14,7 +18,8 @@ describe("Transaction tests", () => {
 
     it('Should NOT be valid (invalid hash)', () =>{
         const tx = new Transaction({
-            data: "tx",
+            txInput: new TransactionInput(),
+            to: 'carteiraTo',
             type: TransactionType.REGULAR,
             timestamp: Date.now(),
             hash: 'abc'
@@ -25,14 +30,14 @@ describe("Transaction tests", () => {
 
     it('Should be valid (FEE)', () =>{
         const tx = new Transaction({
-            data: "tx",
+            to: 'carteiraTo',
             type: TransactionType.FEE
         } as Transaction);
         const valid = tx.isValid();
         expect(valid.success).toBeTruthy();
     })
 
-    it('Should NOT be valid (invalid data)', () =>{
+    it('Should NOT be valid (invalid txInput)', () =>{
         const tx = new Transaction();
         const valid = tx.isValid();
         expect(valid.success).toBeFalsy();
