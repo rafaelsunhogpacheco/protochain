@@ -29,6 +29,13 @@ export default class Transaction {
         if(!this.to) {
             return new Validation(false, "Invalid to.");
         }
+
+        if(this.txInput) {
+            const validation = this.txInput.isValid();
+            if(!validation.success) {
+                return new Validation(false, `Invalid tx: " ${validation.message}`);
+            }
+        }
         return new Validation();
     }
 }
