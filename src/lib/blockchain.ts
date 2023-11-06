@@ -34,7 +34,7 @@ export default class Blockchain {
     addTransaction(transaction: Transaction): Validation {
         if(transaction.txInput) {
             const from = transaction.txInput.fromAddress;
-            const pendingTx = this.mempool.map(tx => tx.txInput).filter(txi => txi?.fromAddress === from);
+            const pendingTx = this.mempool.map(tx => tx.txInput).filter(txi => txi!.fromAddress === from);
             if(pendingTx && pendingTx.length)
                 return new Validation(false, `This wallet has a pendding transaction`);
             
@@ -47,9 +47,6 @@ export default class Blockchain {
         
         if(this.blocks.some(b => b.transactions.some(tx => tx.hash === transaction.hash)))
             return new Validation(false, `Duplicated tx in Blockchain ${transaction.hash}`);
-
-        if(this.mempool.some(tx => tx.hash === transaction.hash))
-            return new Validation(false, `Duplicated tx in Mempool ${transaction.hash}`);
 
         this.mempool.push(transaction);
         return new Validation(true, transaction.hash);
