@@ -48,6 +48,9 @@ export default class Block {
 
         if(this.transactions && this.transactions.length){
             const feeTxs = this.transactions.filter(tx => tx.type === TransactionType.FEE); 
+            if(!feeTxs.length)
+                return new Validation(false, "No fee tx.");
+            
             if(feeTxs.length > 1)
                 return new Validation(false, "Too many fee transactions.");
 
