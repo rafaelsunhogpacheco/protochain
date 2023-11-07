@@ -18,7 +18,7 @@ export default class Transaction {
         if(tx && tx.txInput)
             this.txInput = new TransactionInput(tx.txInput);
         else
-            this.txInput = new TransactionInput();
+            this.txInput = undefined;
         
         this.hash = tx?.hash || this.getHash();
     }
