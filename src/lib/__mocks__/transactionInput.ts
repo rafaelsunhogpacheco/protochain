@@ -4,11 +4,13 @@ export default class TransactionInput {
     fromAddress: string;
     amount: number;
     signature: string;
+    previousTx: string;
 
     constructor(txInput?: TransactionInput) {
+        this.previousTx = txInput?.previousTx || "xyz";
         this.fromAddress = txInput?.fromAddress || "carteira1";
         this.amount = txInput?.amount || 10;
-        this.signature = txInput?.signature || "abc";
+        this.signature = txInput?.signature || "abc";   
     }
 
     sign(privateKey: string): void{
@@ -20,8 +22,8 @@ export default class TransactionInput {
     }
 
     isValid(): Validation {
-        if(!this.signature)
-            return new Validation(false, "No signature.");
+        if(!this.previousTx || !this.signature)
+            return new Validation(false, "Signature and PrevisouTx are required.");
 
         if(this.amount < 1)
             return new Validation(false, "Invalid amount.");
