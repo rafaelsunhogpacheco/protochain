@@ -1,4 +1,5 @@
 import Validation from "./validation";
+import sha256 from "crypto-js/sha256";
 
 export default class TransactionOutput {
     toAddress: string;
@@ -18,5 +19,10 @@ export default class TransactionOutput {
         }
         return new Validation();
     }
+
+    getHash() {
+        return sha256(this.toAddress + this.amount + this.tx).toString();
+    }
+
 
 }
