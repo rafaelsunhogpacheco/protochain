@@ -14,6 +14,7 @@ export default class Blockchain {
     constructor(miner: string) {
         this.blocks = [];
         this.mempool = [new Transaction()];
+        
         this.blocks.push(new Block({
             index: 0,
             hash: "abc",

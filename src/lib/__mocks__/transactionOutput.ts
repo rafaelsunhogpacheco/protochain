@@ -6,7 +6,7 @@ export default class TransactionOutput {
     tx?: string;
 
     constructor(txOutput?: TransactionOutput) {
-        this.toAddress = txOutput?.toAddress || "anc";
+        this.toAddress = txOutput?.toAddress || "abc";
         this.amount = txOutput?.amount || 10;
         this.tx = txOutput?.tx || "xyz";
 

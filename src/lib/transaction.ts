@@ -16,10 +16,12 @@ export default class Transaction {
         this.timestamp = tx?.timestamp || Date.now();
 
         this.txInputs = tx?.txInputs
-            ? tx.txInputs.map(txi => new TransactionInput(txi)) : undefined;
+            ? tx.txInputs.map(txi => new TransactionInput(txi))
+            : undefined;
         
         this.txOutputs = tx?.txOutputs
-            ? tx.txOutputs.map(txo => new TransactionOutput(txo)) : [];
+            ? tx.txOutputs.map(txo => new TransactionOutput(txo))
+            : [];
         
         this.hash = tx?.hash || this.getHash();
 
@@ -31,7 +33,7 @@ export default class Transaction {
             ? this.txInputs.map(txi => txi.signature).join(",")
             : "";
         const to = this.txOutputs && this.txOutputs.length
-            ? this.txOutputs.map(txo => txo.getHash()).join(",")
+            ? this.txOutputs.map(txi => txi.getHash()).join(",")
             : "";
         return sha256(this.type + from + to + this.timestamp).toString();
     }

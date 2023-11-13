@@ -54,7 +54,7 @@ export default class Block {
             if(feeTxs.length > 1)
                 return new Validation(false, "Too many fee transactions.");
 
-            if(!feeTxs[0].txOutputs.some(txo => txo.toAddress === this.miner) )
+            if(!feeTxs[0].txOutputs.some(txo => txo.toAddress === this.miner))
                 return new Validation(false, "Invalid fee tx differente from miner.");
             
             // TODO colocar validação de quantidade de taxas

@@ -8,7 +8,7 @@ export default class Transaction {
     timestamp: number;
     hash: string;
     txInputs: TransactionInput[] | undefined;
-    txOutputs: TransactionOutput[] ;
+    txOutputs: TransactionOutput[];
 
     constructor(tx?: Transaction) {
         this.type = tx?.type || TransactionType.REGULAR;

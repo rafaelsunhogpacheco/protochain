@@ -52,13 +52,13 @@ export default class Blockchain {
         if(transaction.txInputs && transaction.txInputs.length) {
             const from = transaction.txInputs[0].fromAddress;
             const pendingTx = this.mempool
-            .filter(tx => tx.txInputs && tx.txInputs.length)
-            .map(tx => tx.txInputs)
-            .flat()
-            .filter(txi => txi!.fromAddress === from);
+                .filter(tx => tx.txInputs && tx.txInputs.length)
+                .map(tx => tx.txInputs)
+                .flat()
+                .filter(txi => txi!.fromAddress === from);
             
-        if(pendingTx && pendingTx.length)
-            return new Validation(false, `This wallet has a pendding transaction`);
+            if(pendingTx && pendingTx.length)
+                return new Validation(false, `This wallet has a pendding transaction`);
             
             // Todo: validar a origem dos fundos
         }

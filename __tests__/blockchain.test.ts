@@ -4,6 +4,8 @@ import Blockchain from '../src/lib/blockchain';
 import Transaction from '../src/lib/transaction';
 import TransactionInput from '../src/lib/transactionInput';
 import Wallet from '../src/lib/wallet';
+import TransactionType from '../src/lib/transactionType';
+import TransactionOutput from '../src/lib/transactionOutput';
 
 jest.mock('../src/lib/block')
 jest.mock('../src/lib/transaction');
@@ -83,12 +85,10 @@ describe("Blockchain tests", () => {
     it('Should NOT add transaction (Invalid tx)', () =>{
         const blockchain = new Blockchain(alice.publicKey);
 
-        const txInput = new TransactionInput()
-        txInput.amount = -10;
-
         const tx = new Transaction({
-            txInputs: [txInput],
+            txInputs: [new TransactionInput()],
             hash: 'xyz',
+            timestamp: -1
         } as Transaction);
         const validation = blockchain.addTransaction(tx);
         expect(validation.success).toEqual(false);
@@ -157,21 +157,47 @@ describe("Blockchain tests", () => {
         expect(result.success).toEqual(true);
     })
 
+    it('Should NOT add block (invalid mempol)', () =>{
+        const blockchain = new Blockchain(alice.publicKey);
+        blockchain.mempool.push(new Transaction());
+        blockchain.mempool.push(new Transaction());
+
+        const tx = new Transaction({
+            txInputs: [new TransactionInput()]
+        } as Transaction);
+        
+        const result = blockchain.addBlock(new Block({
+            index: 1,
+            previousHash: blockchain.blocks[0].hash,
+            transactions: [tx],
+        }as Block));
+        expect(result.success).toBeFalsy();
+    })
+
     it('Should NOT get block', () =>{
         const blockchain = new Blockchain(alice.publicKey);
         const block = blockchain.getBlock(blockchain.blocks[0].hash);
         expect(block).toBeTruthy();
     })
 
-    it('Should NOT add block', () =>{
+    it('Should NOT add block (invalid index)', () =>{
         const blockchain = new Blockchain(alice.publicKey);
+        blockchain.mempool.push(new Transaction());
+
         const block = new Block({
             index: -1,
             previousHash: blockchain.blocks[0].hash,
-            transactions: [new Transaction({
-                txInputs: [new TransactionInput()],
-            } as Transaction)],
-        }as Block);
+        } as Block);
+
+        block.transactions.push(new Transaction({
+            type: TransactionType.FEE,
+            txOutputs: [ new TransactionOutput({
+                toAddress: alice.publicKey,
+                amount: 1,
+            } as TransactionOutput)]
+        } as Transaction));
+
+        block.hash = block.getHash();
         const result = blockchain.addBlock(block);
         expect(result.success).toEqual(false);
     })
