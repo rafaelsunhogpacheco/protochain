@@ -44,7 +44,7 @@ export default class Block {
         }while (!this.hash.startsWith(prefix))
     }
 
-    isValid(previousHash: string, previousIndex: number, difficulty: number): Validation{
+    isValid(previousHash: string, previousIndex: number, difficulty: number, feePerTx: number): Validation{
 
         if(this.transactions && this.transactions.length){
             const feeTxs = this.transactions.filter(tx => tx.type === TransactionType.FEE); 
@@ -58,8 +58,8 @@ export default class Block {
                 return new Validation(false, "Invalid fee tx differente from miner.");
             
             // TODO colocar validação de quantidade de taxas
-
-            const validations = this.transactions.map(tx => tx.isValid());
+            const totalFees = feePerTx * this.transactions.filter(tx => tx.type !== TransactionType.FEE).length;
+            const validations = this.transactions.map(tx => tx.isValid(difficulty, totalFees ));
             const errors = validations.filter(v => !v.success).map(v => v.message);            
             if(errors.length > 0)
                 return new Validation(false, "Invalid block due to invalid tx." + errors.reduce((a,b) => a + b));

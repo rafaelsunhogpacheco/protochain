@@ -26,8 +26,8 @@ export default class Block {
         return this.hash || "abc";
     }
 
-    isValid(previousHash: string, previousIndex: number): Validation{
-        if (!previousHash || previousIndex < 0 || this.index < 0) {
+    isValid(previousHash: string, previousIndex: number, feePerTx: number): Validation{
+        if (!previousHash || previousIndex < 0 || this.index < 0 || feePerTx < 1) {
             return new Validation(false, "Invalid mock block")
         }
         return new Validation();
