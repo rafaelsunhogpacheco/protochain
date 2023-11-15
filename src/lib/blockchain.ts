@@ -56,7 +56,7 @@ export default class Blockchain {
             if(pendingTx && pendingTx.length)
                 return new Validation(false, `This wallet has a pendding transaction`);
             
-            // calcular a origem dos fundos
+            // calcula a origem dos fundos
             const utxo = this.getUtxo(from);
             for(let i=0; i < transaction.txInputs.length; i++) {
                 const txi = transaction.txInputs[i];
@@ -65,7 +65,7 @@ export default class Blockchain {
             }
         }
         
-        // TODO fazer versão final que valida as taxas.
+        // validação das taxas.
         const validation = transaction.isValid(this.getDifficulty(), this.getFeePerTx());
         if(!validation.success)
             return new Validation(false, `Invalid tx ${validation.message}`);
@@ -161,7 +161,7 @@ export default class Blockchain {
         } as BlockInfo;
     }
 
-    // todos os gastos
+    // retorna o total de gastos
     getTxInputs(wallet: string) : (TransactionInput | undefined)[] {
         return this.blocks
             .map(b => b.transactions)
@@ -172,7 +172,7 @@ export default class Blockchain {
             .filter(txi => txi!.fromAddress === wallet);
     }
 
-    // todos os recebimentos
+    // retorna o total de recebimentos
     getTxOutputs(wallet: string) : TransactionOutput[] {
         return this.blocks
             .map(b => b.transactions)
