@@ -194,13 +194,6 @@ describe("Block tests", () => {
         expect(valid.success).toBeFalsy();
     })
 
-    // it('Should NOT be valid (txInput)', () =>{
-    //     const block = getFullBlock();
-    //     block.transactions[0].txInputs![0].amount = -1;
-    //     const valid = block.isValid(genesis.hash, genesis.index, exampleDifficulty, exampleFee);
-    //     expect(valid.success).toBeFalsy();
-    // })
-
     it('Should NOT be valid (invalid index)', () =>{
         const block = getFullBlock();
         block.index = -1;
